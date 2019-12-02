@@ -1,86 +1,43 @@
+//based on this tutorial https://itnext.io/building-a-dynamic-controlled-form-in-react-together-794a44ee552c
 import React from "react";
+import MemberInput from "./MemberInput";
 import "../styles/GroupMemberForm.css";
 
 class GroupMemberForm extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      name: "",
-      members: [{ name: "" }]
-    };
-  }
-
-  handleNameChange = evt => {
-    this.setState({ name: evt.target.value });
+  state = {
+    members: [{ name: "", dob: "" }],
+    groupName: ""
   };
-
-  handleMemberNameChange = idx => evt => {
-    const newMembers = this.state.members.map((member, sidx) => {
-      if (idx !== sidx) return member;
-      return { ...member, name: evt.target.value };
-    });
-
-    this.setState({ members: newMembers });
+  handleChange = e => {
+    if (["name", "dob"].includes(e.target.className)) {
+      let members = [...this.state.members];
+      members[e.target.dataset.id][e.target.className] = e.target.value;
+      this.setState({ members }, () => console.log(this.state.members,this.state.groupName));
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
   };
-
-  handleSubmit = evt => {
-    const { name, members } = this.state;
-    alert(`Incorporated: ${name} with ${members.length} shareholders`);
+  addMember = e => {
+    this.setState(prevState => ({
+      members: [...prevState.members, { name: "", dob: "" }]
+    }));
   };
-
-  handleAddMember = () => {
-    this.setState({
-      members: this.state.members.concat([{ name: "" }])
-    });
+  handleSubmit = e => {
+    e.preventDefault();
   };
-
-  handleRemoveMember = idx => () => {
-    this.setState({
-      members: this.state.members.filter((s, sidx) => idx !== sidx)
-    });
-  };
-
   render() {
+    let { groupName, members } = this.state;
     return (
-      <div className="form-container">
-        <form onSubmit={this.handleSubmit}>
-          <h1>Create Group</h1>
-          <input
-            type="text"
-            placeholder="Group name"
-            value={this.state.name}
-            onChange={this.handleNameChange}
-          />
-
-          {this.state.members.map((member, idx) => (
-            <div className="member">
-              <input
-                type="text"
-                placeholder={`Name #${idx + 1}`}
-                value={member.name}
-                onChange={this.handleMemberNameChange(idx)}
-              />
-              <button
-                type="button"
-                onClick={this.handleRemoveMember(idx)}
-                className="small"
-              >
-                -
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={this.handleAddMember}
-            className="small"
-          >
-            Add Member
-          </button>
-          <button>Create Group</button>
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+        <label htmlFor="name" style={{ color: "white" }}>
+          Group Name
+        </label>
+        <input type="text" name="groupName" id="groupName" value={groupName} />
+        <MemberInput members={members} />
+        <button onClick={this.addMember}>Add new member</button>
+        <input type="submit" value="Submit" />
+      </form>
     );
   }
 }
-
 export default GroupMemberForm;

@@ -21,7 +21,7 @@ class ArrowDrawable extends Drawable {
   }
   render() {
     const points = [this.startx, this.starty, this.x, this.y];
-    return <Arrow points={points} fill="black" stroke="black" />;
+    return <Arrow points={points} fill="white" stroke="white" />;
   }
 }
 
@@ -36,7 +36,7 @@ class CircleDrawable extends ArrowDrawable {
     const dy = this.starty - this.y;
     const radius = Math.sqrt(dx * dx + dy * dy);
     return (
-      <Circle radius={radius} x={this.startx} y={this.starty} stroke="black" />
+      <Circle radius={radius} x={this.startx} y={this.starty} stroke="white" />
     );
   }
 }
@@ -56,7 +56,7 @@ class RectDrawable extends ArrowDrawable {
         width={dx}
         x={this.startx}
         y={this.starty}
-        stroke="black"
+        stroke="white"
       />
     );
   }
@@ -71,7 +71,7 @@ class FreePathDrawable extends Drawable {
     this.points = [...this.points, x, y];
   }
   render() {
-    return <Line points={this.points} fill="black" stroke="black" />;
+    return <Line points={this.points} fill="white" stroke="white" />;
   }
 }
 
