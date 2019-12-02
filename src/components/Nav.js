@@ -1,24 +1,32 @@
 import React from "react";
 import "../styles/Nav.css";
+import { Link } from "react-router-dom";
 
-class Nav extends React.Component {
-    constructor() {
-        super()
-        this.handleClick = this.handleClick.bind(this);
-    }
+function Nav() {
 
-    handleClick(nav) {
-        this.props.getNav(nav)
-    }
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/" className="btn">
+            <div className="btn-container">Home</div>
+          </Link>
+        </li>
 
-  render() {
-    return (<div className="nav">
-            <ul>
-                <li className="btn" onClick={() => this.handleClick(0)}>Home</li>
-                <li className="btn" onClick={() => this.handleClick(1)}>Create group</li>
-            </ul>
-        </div>)
-  }
+        <li>
+          <Link to="/group-view" className="btn">
+            <div className="btn-container">Create Group</div>
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/free-canvas" className="btn">
+            <div className="btn-container">Free Doodle</div>
+          </Link>
+        </li>
+      </ul>
+    </nav>
+  );
 }
 
 export default Nav;

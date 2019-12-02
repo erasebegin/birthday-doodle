@@ -1,32 +1,24 @@
 import React from "react";
 import "./styles/App.css";
 import Nav from "./components/Nav";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./components/Home";
-import CreateGroup from "./components/CreateGroup";
+import GroupMemberForm from "./components/GroupMemberForm";
+import FreeCanvas from "./components/FreeCanvas"
 
-class App extends React.Component {
-  constructor() {
-    super()
-    this.state={nav:""}
-    this.setNav = this.setNav.bind(this);
-  }
-
-  setNav(navInput) {
-    const navArr = ["home","create"]
-    this.setState({nav:navArr[navInput]})
-  }
-
-  render() {
-    
-  
-
-    return (
+function App() {
+  return (
+    <Router>
       <div className="App">
-        <Nav getNav={this.setNav}/>
-        {this.state.nav === "create" ? <CreateGroup /> : <Home />}
+        <Nav />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/group-view" component={GroupMemberForm} />
+          <Route path="/free-canvas" component={FreeCanvas} />
+        </Switch>
       </div>
-    );
-  }
+    </Router>
+  );
 }
 
 export default App;
